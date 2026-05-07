@@ -235,7 +235,10 @@ int main(void)
         digitalWrite(UC_TRIG_PIN, LOW);
 
         unsigned int t0 = micros();
+        // Echo 신호 미수신 시 무한 루프 방지
+        // 일정 시간(30ms) 초과 시 마지막 정상 거리값 유지
         while (digitalRead(UC_ECHO_PIN) == 0) {
+            // Timeout 발생 시 이전 유효값 사용
             if (micros() - t0 > 30000) goto use_prev;
             s = micros();
         }
